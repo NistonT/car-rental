@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  User
+  Admin
+}
+
+model User {
+  id         String  @id @default(cuid())
+  surname    String
+  name       String
+  patronymic String
+  email      String  @unique
+  login      String  @unique
+  password   String
+  role       Role    @default(User)
+  avatar     String?
+  license    String?
+
+  CreatedAt DateTime  @default(now()) @map("created_at")
+  UpdatedAt DateTime  @updatedAt() @map("updated_map")
+  Booking   Booking[]
+
+  @@map("user")
+}
+
+model Vehicle {
+  id          String @id @default(cuid())
+  type        String
+  make        String
+  year        Int
+  description String
+
+  CreatedAt DateTime  @default(now()) @map("created_at")
+  UpdatedAt DateTime  @updatedAt() @map("updated_map")
+  Booking   Booking[]
+
+  @@map("vehicle")
+}
+
+model Booking {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      String
+  vehicle      Vehicle  @relation(fields: [vehicle_id], references: [id])
+  vehicle_id   String
+  booking_date DateTime
+  duration     Int
+
+  @@map("booking")
+}
+
+model License {
+  id             String @id @default(cuid())
+  license_number String
+
+  @@map("license")
+}
