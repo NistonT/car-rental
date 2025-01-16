@@ -19,9 +19,38 @@ let AuthService = class AuthService {
         this.prisma = prisma;
         this.jwtService = jwtService;
     }
-    async validateUser(login, pass) {
-        const user = await this.prisma.user.findUnique({ where: { login } });
-        if (user && bcrypt.compareSync(pass, user.password)) {
+    async register(dto) {
+        const existingUsersByEmail = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+        if (existingUsersByEmail) {
+            throw new common_1.ConflictException('Пользователь с такой почтой уже существует');
+        }
+        const existingUsersByLogin = await this.prisma.user.findUnique({
+            where: {
+                login: dto.login,
+            },
+        });
+        if (existingUsersByLogin) {
+            throw new common_1.ConflictException('Пользователь с таким логином уже существует');
+        }
+        const hashedPassword = bcrypt.hashSync(dto.password, 10);
+        const user = await this.prisma.user.create({
+            data: {
+                ...dto,
+                password: hashedPassword,
+            },
+        });
+        const { password, ...result } = user;
+        return result;
+    }
+    async validateUser(dto) {
+        const user = await this.prisma.user.findUnique({
+            where: { login: dto.login },
+        });
+        if (user && (await bcrypt.compare(dto.password, user.password))) {
             const { password, ...result } = user;
             return result;
         }
@@ -33,28 +62,25 @@ let AuthService = class AuthService {
             access_token: this.jwtService.sign(payload),
         };
     }
-    async register(userData) {
-        const existingUserByEmail = await this.prisma.user.findUnique({
-            where: { email: userData.email },
-        });
-        if (existingUserByEmail) {
-            throw new common_1.ConflictException('Пользователь с таким email уже существует');
-        }
-        const existingUserByLogin = await this.prisma.user.findUnique({
-            where: { login: userData.login },
-        });
-        if (existingUserByLogin) {
-            throw new common_1.ConflictException('Пользователь с таким логином уже существует');
-        }
-        const hashedPassword = bcrypt.hashSync(userData.password, 10);
-        const user = await this.prisma.user.create({
-            data: {
-                ...userData,
-                password: hashedPassword,
+    async checkUser(dto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: dto.id,
             },
         });
-        const { password, ...result } = user;
-        return result;
+        if (!user) {
+            throw new common_1.UnauthorizedException('Пользователь не найден');
+        }
+        try {
+            const payload = this.jwtService.verify(dto.token);
+            if (payload.sub !== user.id) {
+                throw new common_1.UnauthorizedException('Токен не принадлежит пользователю');
+            }
+            return payload;
+        }
+        catch (error) {
+            throw new common_1.UnauthorizedException('Невалидный токен');
+        }
     }
 };
 exports.AuthService = AuthService;

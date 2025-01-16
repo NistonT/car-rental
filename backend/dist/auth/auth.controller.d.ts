@@ -1,13 +1,11 @@
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { CheckAutoDto } from './dto/check.dto';
+import { LoginValidateAuthDto } from './dto/login.dto';
+import { RegisterAuthDto } from './dto/register.dto';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    login(loginDto: LoginDto): Promise<{
-        access_token: string;
-    }>;
-    register(registerDto: RegisterDto): Promise<{
+    register(dto: RegisterAuthDto): Promise<{
         id: string;
         surname: string;
         name: string;
@@ -20,4 +18,8 @@ export declare class AuthController {
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
+    login(dto: LoginValidateAuthDto): Promise<{
+        access_token: string;
+    }>;
+    checkUser(dto: CheckAutoDto): Promise<any>;
 }
