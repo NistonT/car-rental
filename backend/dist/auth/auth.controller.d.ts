@@ -20,5 +20,4 @@ export declare class AuthController {
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
-    getProfile(): string;
 }
