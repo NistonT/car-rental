@@ -24,15 +24,26 @@ let AutoAdminController = class AutoAdminController {
         const admin = await this.autoAdminService.validateAdmin(dto);
         return await this.autoAdminService.autoAdmin(admin);
     }
+    async editRole(id, role) {
+        return await this.autoAdminService.editRole(id, role);
+    }
 };
 exports.AutoAdminController = AutoAdminController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('auto'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [auto_dto_1.AutoAdminDto]),
     __metadata("design:returntype", Promise)
 ], AutoAdminController.prototype, "autoAdmin", null);
+__decorate([
+    (0, common_1.Post)('role/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('role')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], AutoAdminController.prototype, "editRole", null);
 exports.AutoAdminController = AutoAdminController = __decorate([
     (0, common_1.Controller)('admin'),
     __metadata("design:paramtypes", [auto_admin_service_1.AutoAdminService])

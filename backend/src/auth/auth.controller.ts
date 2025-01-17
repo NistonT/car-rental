@@ -15,11 +15,13 @@ import { RegisterAuthDto } from './dto/register.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Регистрация пользователя
   @Post('/register')
   async register(@Body() dto: RegisterAuthDto) {
     return await this.authService.register(dto);
   }
 
+  // Авторизация пользователя
   @Post('/login')
   async login(@Body() dto: LoginValidateAuthDto) {
     const user = await this.authService.validateUser(dto);
@@ -29,6 +31,7 @@ export class AuthController {
     return await this.authService.login(user);
   }
 
+  // Проверка на валидность токена
   @Get('check')
   async checkUser(@Query() dto: CheckAutoDto) {
     return this.authService.checkUser(dto);

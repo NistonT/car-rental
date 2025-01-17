@@ -7,19 +7,33 @@ export declare class AutoAdminService {
     private readonly jwtService;
     constructor(prisma: PrismaService, jwtService: JwtService);
     validateAdmin(dto: AutoAdminDto): Promise<{
-        id: string;
-        surname: string;
+        license: string | null;
+        login: string;
         name: string;
+        surname: string;
         patronymic: string;
         email: string;
-        login: string;
-        role: import(".prisma/client").$Enums.Role;
         avatar: string | null;
-        license: string | null;
+        id: string;
+        role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
     autoAdmin(admin: IAdmin): Promise<{
         access_token: string;
+    }>;
+    editRole(id: string, newRole: string): Promise<{
+        license: string | null;
+        login: string;
+        password: string;
+        name: string;
+        surname: string;
+        patronymic: string;
+        email: string;
+        avatar: string | null;
+        id: string;
+        role: import(".prisma/client").$Enums.Role;
+        CreatedAt: Date;
+        UpdatedAt: Date;
     }>;
 }

@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 import { IAdmin } from './auto-admin.type';
@@ -12,6 +13,7 @@ export class AutoAdminService {
     private readonly jwtService: JwtService,
   ) {}
 
+  // Проверка на валидность администратора
   async validateAdmin(dto: AutoAdminDto) {
     const admin = await this.prisma.user.findUnique({
       where: { login: dto.login },
@@ -30,10 +32,22 @@ export class AutoAdminService {
     return null;
   }
 
+  // Авторизация администратора
   async autoAdmin(admin: IAdmin) {
     const payload = { login: admin.login, sub: admin.id, role: admin.role };
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  // Редактированние ролей
+  async editRole(id: string, newRole: string) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    return await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        role: newRole === Role.Admin ? Role.Admin : Role.User,
+      },
+    });
   }
 }

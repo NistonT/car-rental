@@ -35,6 +35,38 @@ let UserService = class UserService {
             },
         });
     }
+    async editUser(id, dto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                Booking: true,
+            },
+        });
+        return await this.prisma.user.update({
+            where: {
+                id: user.id,
+            },
+            data: {
+                name: dto.name,
+                surname: dto.surname,
+                patronymic: dto.patronymic,
+                email: dto.email,
+                password: dto.password,
+                login: dto.login,
+                avatar: dto.avatar,
+                license: dto.license,
+            },
+        });
+    }
+    async deleteUser(id) {
+        return await this.prisma.user.delete({
+            where: {
+                id,
+            },
+        });
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

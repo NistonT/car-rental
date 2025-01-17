@@ -18,6 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  // Регистрация Пользователя
   async register(dto: RegisterAuthDto) {
     const existingUsersByEmail = await this.prisma.user.findUnique({
       where: {
@@ -54,6 +55,7 @@ export class AuthService {
     return result;
   }
 
+  // Валидация пользователя
   async validateUser(dto: LoginValidateAuthDto) {
     const user = await this.prisma.user.findUnique({
       where: { login: dto.login },
@@ -65,6 +67,7 @@ export class AuthService {
     return null;
   }
 
+  // Авторизация пользователя
   async login(user: IUser) {
     const payload = { username: user.login, sub: user.id };
     return {
@@ -72,6 +75,7 @@ export class AuthService {
     };
   }
 
+  // Проверка на валидность токена
   async checkUser(dto: CheckAutoDto) {
     const user = await this.prisma.user.findUnique({
       where: {
