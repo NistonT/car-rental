@@ -14,13 +14,14 @@ const auth_module_1 = require("./auth/auth.module");
 const prisma_service_1 = require("./prisma.service");
 const user_module_1 = require("./user/user.module");
 const auto_admin_module_1 = require("./auto-admin/auto-admin.module");
+const upload_file_module_1 = require("./upload-file/upload-file.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         providers: [prisma_service_1.PrismaService, jwt_1.JwtService],
-        imports: [auth_module_1.AuthModule, config_1.ConfigModule.forRoot({ isGlobal: true }), user_module_1.UserModule, auto_admin_module_1.AutoAdminModule],
+        imports: [auth_module_1.AuthModule, config_1.ConfigModule.forRoot({ isGlobal: true }), user_module_1.UserModule, auto_admin_module_1.AutoAdminModule, upload_file_module_1.UploadFileModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
