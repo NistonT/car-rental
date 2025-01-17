@@ -9,46 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadFileService = void 0;
+exports.LicenseService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
-let UploadFileService = class UploadFileService {
+let LicenseService = class LicenseService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findOne(id) {
-        return await this.prisma.user.findUnique({ where: { id } });
-    }
-    async update(id, dto) {
-        const user = await this.findOne(id);
+    async addLicense(id, license) {
+        const user = await this.prisma.user.findUnique({ where: { id } });
         if (!user) {
-            throw new common_1.NotFoundException('Пользователь не найден');
+            throw new common_1.NotFoundException(`User with ID '${id}' not found`);
         }
-        return await this.prisma.user.update({
+        return this.prisma.user.update({
             where: { id: user.id },
-            data: { ...dto },
+            data: {
+                license,
+            },
         });
     }
-    async updateAvatar(id, file) {
-        const user = await this.findOne(id);
-        if (!user) {
-            throw new common_1.NotFoundException('Пользователь не найден');
+    async examinationLicense(license) {
+        if (license.length !== 10 || /\s/.test(license)) {
+            throw new common_1.BadRequestException('Номер лицензии должен быть без пробелов и содержать 10 символов');
         }
-        const avatarUrl = `/uploads/profile/${file.filename}`;
-        await this.prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                avatar: avatarUrl,
-            },
-        });
-        return user;
+        const numberLicense = Number(license);
+        if (isNaN(numberLicense)) {
+            throw new common_1.BadRequestException('Номер лицензии должен быть числом');
+        }
+        return license;
     }
 };
-exports.UploadFileService = UploadFileService;
-exports.UploadFileService = UploadFileService = __decorate([
+exports.LicenseService = LicenseService;
+exports.LicenseService = LicenseService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], UploadFileService);
-//# sourceMappingURL=upload-file.service.js.map
+], LicenseService);
+//# sourceMappingURL=license.service.js.map

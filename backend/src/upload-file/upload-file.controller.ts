@@ -48,11 +48,14 @@ export class UploadFileController {
         },
       }),
       fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) {
+        if (file.mimetype === 'image/jpeg') {
           cb(null, true);
         } else {
-          cb(new Error('Only images are allowed'), false);
+          cb(new Error('Only JPEG are allowed'), false);
         }
+      },
+      limits: {
+        fileSize: 1024 * 1024,
       },
     }),
   )

@@ -1,0 +1,1 @@
+{"version":3,"file":"license.module.js","sourceRoot":"","sources":["../../src/license/license.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,sDAAmD;AACnD,6DAAyD;AACzD,uDAAmD;AAM5C,IAAM,aAAa,GAAnB,MAAM,aAAa;CAAG,CAAA;AAAhB,sCAAa;wBAAb,aAAa;IAJzB,IAAA,eAAM,EAAC;QACN,WAAW,EAAE,CAAC,sCAAiB,CAAC;QAChC,SAAS,EAAE,CAAC,gCAAc,EAAE,8BAAa,CAAC;KAC3C,CAAC;GACW,aAAa,CAAG"}
