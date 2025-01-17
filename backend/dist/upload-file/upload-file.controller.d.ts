@@ -4,7 +4,6 @@ export declare class UploadFileController {
     private readonly uploadFileService;
     constructor(uploadFileService: UploadFileService);
     findOne(id: string): Promise<{
-        license: string | null;
         login: string;
         password: string;
         name: string;
@@ -12,13 +11,13 @@ export declare class UploadFileController {
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
     update(id: string, dto: UpdateUploadDto): Promise<{
-        license: string | null;
         login: string;
         password: string;
         name: string;
@@ -26,13 +25,13 @@ export declare class UploadFileController {
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
     updateAvatar(id: string, file: Express.Multer.File): Promise<{
-        license: string | null;
         login: string;
         password: string;
         name: string;
@@ -40,6 +39,7 @@ export declare class UploadFileController {
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;

@@ -5,7 +5,6 @@ export declare class JwtStrategy extends JwtStrategy_base {
     private readonly prisma;
     constructor(prisma: PrismaService);
     validate(payload: any): Promise<{
-        license: string | null;
         login: string;
         password: string;
         name: string;
@@ -13,6 +12,7 @@ export declare class JwtStrategy extends JwtStrategy_base {
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;

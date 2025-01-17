@@ -16,6 +16,7 @@ const license_module_1 = require("./license/license.module");
 const prisma_service_1 = require("./prisma.service");
 const upload_file_module_1 = require("./upload-file/upload-file.module");
 const user_module_1 = require("./user/user.module");
+const vehicle_module_1 = require("./vehicle/vehicle.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,6 +30,7 @@ exports.AppModule = AppModule = __decorate([
             auto_admin_module_1.AutoAdminModule,
             upload_file_module_1.UploadFileModule,
             license_module_1.LicenseModule,
+            vehicle_module_1.VehicleModule,
         ],
     })
 ], AppModule);
