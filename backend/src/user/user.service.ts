@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { EditUserDto } from './dto/edit.dto';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAll() {
+  // Вывод всех пользователей
+  async getAll(): Promise<User[]> {
     return await this.prisma.user.findMany({
       include: {
         Booking: {
@@ -17,11 +20,49 @@ export class UserService {
     });
   }
 
-  async getId(id: string) {
+  // Вывод пользователя по индетификатору
+  async getId(id: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: { id },
       include: {
         Booking: true,
+      },
+    });
+  }
+
+  // Редактирование пользователя
+  async editUser(id: string, dto: EditUserDto): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        Booking: true,
+      },
+    });
+
+    return await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name: dto.name,
+        surname: dto.surname,
+        patronymic: dto.patronymic,
+        email: dto.email,
+        password: dto.password,
+        login: dto.login,
+        avatar: dto.avatar,
+        license: dto.license,
+      },
+    });
+  }
+
+  // удаление пользователя
+  async deleteUser(id: string): Promise<User> {
+    return await this.prisma.user.delete({
+      where: {
+        id,
       },
     });
   }

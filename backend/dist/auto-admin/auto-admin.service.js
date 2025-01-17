@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AutoAdminService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
+const client_1 = require("@prisma/client");
 const bcrypt = require("bcrypt");
 const prisma_service_1 = require("../prisma.service");
 let AutoAdminService = class AutoAdminService {
@@ -37,6 +38,15 @@ let AutoAdminService = class AutoAdminService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+    async editRole(id, newRole) {
+        const user = await this.prisma.user.findUnique({ where: { id } });
+        return await this.prisma.user.update({
+            where: { id: user.id },
+            data: {
+                role: newRole === client_1.Role.Admin ? client_1.Role.Admin : client_1.Role.User,
+            },
+        });
     }
 };
 exports.AutoAdminService = AutoAdminService;
