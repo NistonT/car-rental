@@ -8,6 +8,7 @@ import { PrismaService } from './prisma.service';
 import { UploadFileModule } from './upload-file/upload-file.module';
 import { UserModule } from './user/user.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   providers: [PrismaService, JwtService],
@@ -19,6 +20,7 @@ import { VehicleModule } from './vehicle/vehicle.module';
     UploadFileModule,
     LicenseModule,
     VehicleModule,
+    BookingModule,
   ],
 })
 export class AppModule {}

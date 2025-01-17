@@ -49,7 +49,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_dto_1.UpdateUploadDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UploadFileController.prototype, "update", null);
 __decorate([
     (0, common_1.Post)(':id/avatar'),

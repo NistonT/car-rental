@@ -7,15 +7,20 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { LicenseService } from './license.service';
 
 @Controller('license')
 export class LicenseController {
   constructor(private readonly licenseService: LicenseService) {}
 
+  // Добавлние лицензии
   @Post(':id')
   @UsePipes(new ValidationPipe())
-  async license(@Param('id') id: string, @Body('license') license: string) {
+  async license(
+    @Param('id') id: string,
+    @Body('license') license: string,
+  ): Promise<User> {
     try {
       const validatedLicense =
         await this.licenseService.examinationLicense(license);

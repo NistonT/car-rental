@@ -11,6 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { User } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
@@ -23,14 +24,14 @@ export class UploadFileController {
 
   // Вывод пользователя по идентификатору
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<User> {
     return await this.uploadFileService.findOne(id);
   }
 
   // Изменение данных у пользователя
   @Put(':id')
   @UsePipes(new ValidationPipe())
-  update(@Param('id') id: string, @Body() dto: UpdateUploadDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateUploadDto): Promise<User> {
     return this.uploadFileService.update(id, dto);
   }
 
@@ -62,7 +63,7 @@ export class UploadFileController {
   async updateAvatar(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
-  ) {
+  ): Promise<User> {
     return this.uploadFileService.updateAvatar(id, file);
   }
 }
