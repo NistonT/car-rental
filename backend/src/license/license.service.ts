@@ -3,13 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class LicenseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async addLicense(id: string, license: string) {
+  async addLicense(id: string, license: string): Promise<User> {
     const user = await this.prisma.user.findUnique({ where: { id } });
 
     if (!user) {

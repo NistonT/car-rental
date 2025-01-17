@@ -56,10 +56,3 @@ model Booking {
 
   @@map("booking")
 }
-
-model License {
-  id             String @id @default(cuid())
-  license_number String
-
-  @@map("license")
-}

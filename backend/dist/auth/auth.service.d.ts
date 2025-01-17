@@ -9,26 +9,26 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(prisma: PrismaService, jwtService: JwtService);
     register(dto: RegisterAuthDto): Promise<{
-        license: string | null;
         login: string;
         name: string;
         surname: string;
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;
     validateUser(dto: LoginValidateAuthDto): Promise<{
-        license: string | null;
         login: string;
         name: string;
         surname: string;
         patronymic: string;
         email: string;
         avatar: string | null;
+        license: string | null;
         id: string;
         role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
