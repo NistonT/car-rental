@@ -45,6 +45,6 @@ export class UploadFileService {
       },
     });
 
-    return this.prisma.user.findUnique({ where: { id } });
+    return user;
   }
 }
