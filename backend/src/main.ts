@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  const uploadsPath = join(__dirname, '..', 'uploads');
+  const uploadsPath = join(__dirname, '../', 'uploads');
   app.useStaticAssets(uploadsPath);
   app.setGlobalPrefix('/api');
   app.enableCors();

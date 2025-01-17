@@ -34,7 +34,7 @@ let UploadFileService = class UploadFileService {
         if (!user) {
             throw new common_1.NotFoundException('Пользователь не найден');
         }
-        const avatarUrl = `/uploads/${file.filename}`;
+        const avatarUrl = `/uploads/profile/${file.filename}`;
         await this.prisma.user.update({
             where: {
                 id: user.id,

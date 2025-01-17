@@ -55,12 +55,12 @@ __decorate([
     (0, common_1.Post)(':id/avatar'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
-            destination: './uploads',
+            destination: (0, path_1.join)(__dirname, '../../../', 'uploads', 'profile'),
             filename: (req, file, cb) => {
                 const uniqueSuffix = (0, crypto_1.randomUUID)();
                 const ext = (0, path_1.extname)(file.originalname);
                 const fileName = `${uniqueSuffix}${ext}`;
-                cb(null, `profile/${fileName}`);
+                cb(null, fileName);
             },
         }),
         fileFilter: (req, file, cb) => {

@@ -13,7 +13,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
 import { UpdateUploadDto } from './dto/update.dto';
 import { UploadFileService } from './upload-file.service';
 
@@ -39,12 +39,12 @@ export class UploadFileController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: join(__dirname, '../../../', 'uploads', 'profile'),
         filename: (req, file, cb) => {
           const uniqueSuffix = randomUUID();
           const ext = extname(file.originalname);
           const fileName = `${uniqueSuffix}${ext}`;
-          cb(null, `profile/${fileName}`);
+          cb(null, fileName);
         },
       }),
       fileFilter: (req, file, cb) => {
