@@ -1,0 +1,23 @@
+model User {
+  id         String  @id @default(cuid())
+  surname    String
+  name       String
+  patronymic String
+  email      String  @unique
+  login      String  @unique
+  password   String
+  role       Role    @default(User)
+  avatar     String?
+  license    String?
+
+  CreatedAt DateTime  @default(now()) @map("created_at")
+  UpdatedAt DateTime  @updatedAt() @map("updated_map")
+  Booking   Booking[]
+
+  @@map("user")
+}
+
+enum Role {
+  User
+  Admin
+}

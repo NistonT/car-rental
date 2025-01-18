@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const Authorization = () => {
 	return (
 		<>
@@ -49,6 +51,14 @@ export const Authorization = () => {
 						<button className='text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg transition-all'>
 							Войти
 						</button>
+						<div className='flex justify-center mt-10'>
+							<Link
+								href={"/register"}
+								className='text-green-400 hover:text-green-500 transition-colors font-medium border-b border-green-500'
+							>
+								Зарегистрироваться
+							</Link>
+						</div>
 					</div>
 				</div>
 			</section>
