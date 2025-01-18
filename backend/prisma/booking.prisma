@@ -1,0 +1,11 @@
+model Booking {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      String
+  vehicle      Vehicle  @relation(fields: [vehicle_id], references: [id])
+  vehicle_id   String
+  booking_date DateTime
+  duration     Int
+
+  @@map("booking")
+}
