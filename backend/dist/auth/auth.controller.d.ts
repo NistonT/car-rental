@@ -1,5 +1,4 @@
 import { AuthService } from './auth.service';
-import { CheckAutoDto } from './dto/check.dto';
 import { LoginValidateAuthDto } from './dto/login.dto';
 import { RegisterAuthDto } from './dto/register.dto';
 export declare class AuthController {
@@ -21,5 +20,5 @@ export declare class AuthController {
     login(dto: LoginValidateAuthDto): Promise<{
         access_token: string;
     }>;
-    checkUser(dto: CheckAutoDto): Promise<any>;
+    checkUser(authorizationHeader: string): Promise<any>;
 }

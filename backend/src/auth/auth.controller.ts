@@ -2,12 +2,11 @@ import {
   Body,
   Controller,
   Get,
+  Headers,
   Post,
-  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CheckAutoDto } from './dto/check.dto';
 import { LoginValidateAuthDto } from './dto/login.dto';
 import { RegisterAuthDto } from './dto/register.dto';
 
@@ -33,7 +32,11 @@ export class AuthController {
 
   // Проверка на валидность токена
   @Get('check')
-  async checkUser(@Query() dto: CheckAutoDto) {
-    return this.authService.checkUser(dto);
+  async checkUser(@Headers('authorization') authorizationHeader: string) {
+    if (!authorizationHeader) {
+      throw new UnauthorizedException('Нет токена');
+    }
+    const token = authorizationHeader.replace('Bearer ', '');
+    return this.authService.checkUser(token);
   }
 }

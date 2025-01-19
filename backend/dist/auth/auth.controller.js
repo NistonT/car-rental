@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const check_dto_1 = require("./dto/check.dto");
 const login_dto_1 = require("./dto/login.dto");
 const register_dto_1 = require("./dto/register.dto");
 let AuthController = class AuthController {
@@ -32,8 +31,12 @@ let AuthController = class AuthController {
         }
         return await this.authService.login(user);
     }
-    async checkUser(dto) {
-        return this.authService.checkUser(dto);
+    async checkUser(authorizationHeader) {
+        if (!authorizationHeader) {
+            throw new common_1.UnauthorizedException('Нет токена');
+        }
+        const token = authorizationHeader.replace('Bearer ', '');
+        return this.authService.checkUser(token);
     }
 };
 exports.AuthController = AuthController;
@@ -53,9 +56,9 @@ __decorate([
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Get)('check'),
-    __param(0, (0, common_1.Query)()),
+    __param(0, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [check_dto_1.CheckAutoDto]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "checkUser", null);
 exports.AuthController = AuthController = __decorate([
