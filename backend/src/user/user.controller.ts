@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
 import { EditUserDto } from './dto/edit.dto';
 import { UserService } from './user.service';
@@ -31,6 +39,18 @@ export class UserController {
   // Удаление пользователя
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<User> {
-    return await this.userService.deleteUser(id);
+    try {
+      return await this.userService.deleteUser(id);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw error;
+    }
+  }
+
+  @Delete('all')
+  async deleteAllUser() {
+    return await this.userService.deleteAllUser();
   }
 }

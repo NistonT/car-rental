@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadFileModule = void 0;
 const common_1 = require("@nestjs/common");
-const platform_express_1 = require("@nestjs/platform-express");
 const prisma_service_1 = require("../prisma.service");
 const upload_file_controller_1 = require("./upload-file.controller");
 const upload_file_service_1 = require("./upload-file.service");
@@ -17,11 +16,6 @@ let UploadFileModule = class UploadFileModule {
 exports.UploadFileModule = UploadFileModule;
 exports.UploadFileModule = UploadFileModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            platform_express_1.MulterModule.register({
-                dest: '/uploads',
-            }),
-        ],
         controllers: [upload_file_controller_1.UploadFileController],
         providers: [upload_file_service_1.UploadFileService, prisma_service_1.PrismaService],
     })

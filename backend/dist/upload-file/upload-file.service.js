@@ -9,41 +9,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UploadFileService = void 0;
+exports.UploadFileService = exports.FileType = void 0;
 const common_1 = require("@nestjs/common");
+const fs_1 = require("fs");
+const path_1 = require("path");
 const prisma_service_1 = require("../prisma.service");
+var FileType;
+(function (FileType) {
+    FileType["IMAGE"] = "image";
+})(FileType || (exports.FileType = FileType = {}));
 let UploadFileService = class UploadFileService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findOne(id) {
-        return await this.prisma.user.findUnique({ where: { id } });
-    }
-    async update(id, dto) {
-        const user = await this.findOne(id);
+    async updateAvatarNew(id, file) {
+        const user = await this.prisma.user.findUnique({ where: { id } });
         if (!user) {
             throw new common_1.NotFoundException('Пользователь не найден');
+        }
+        if (user.avatar &&
+            user.avatar !== null &&
+            user.avatar.startsWith('http://localhost:3000/')) {
+            try {
+                const oldFilePath = (0, path_1.resolve)(process.cwd(), user.avatar.substring('http://localhost:3000/'.length));
+                console.log(oldFilePath);
+                console.log((0, fs_1.existsSync)(oldFilePath));
+                if ((0, fs_1.existsSync)(oldFilePath)) {
+                    (0, fs_1.unlinkSync)(oldFilePath);
+                    console.log('Старая фотография удалена:', oldFilePath);
+                }
+            }
+            catch (error) {
+                console.error('Ошибка при удалении старой фотографии:', error);
+            }
         }
         return await this.prisma.user.update({
-            where: { id: user.id },
-            data: { ...dto },
-        });
-    }
-    async updateAvatar(id, file) {
-        const user = await this.findOne(id);
-        if (!user) {
-            throw new common_1.NotFoundException('Пользователь не найден');
-        }
-        const avatarUrl = `/uploads/profile/${file.filename}`;
-        await this.prisma.user.update({
             where: {
-                id: user.id,
+                id,
             },
             data: {
-                avatar: avatarUrl,
+                avatar: `http://localhost:3000/${file.path}`,
             },
         });
-        return user;
     }
 };
 exports.UploadFileService = UploadFileService;

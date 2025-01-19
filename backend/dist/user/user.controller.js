@@ -30,7 +30,18 @@ let UserController = class UserController {
         return await this.userService.editUser(id, dto);
     }
     async deleteUser(id) {
-        return await this.userService.deleteUser(id);
+        try {
+            return await this.userService.deleteUser(id);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw error;
+        }
+    }
+    async deleteAllUser() {
+        return await this.userService.deleteAllUser();
     }
 };
 exports.UserController = UserController;
@@ -62,6 +73,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
+__decorate([
+    (0, common_1.Delete)('all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteAllUser", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
