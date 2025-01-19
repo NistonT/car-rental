@@ -61,11 +61,18 @@ let UserService = class UserService {
         });
     }
     async deleteUser(id) {
-        return await this.prisma.user.delete({
-            where: {
-                id,
-            },
+        const user = await this.prisma.user.findUnique({
+            where: { id },
         });
+        if (!user) {
+            throw new common_1.NotFoundException(`User with ID "${id}" not found`);
+        }
+        return await this.prisma.user.delete({
+            where: { id },
+        });
+    }
+    async deleteAllUser() {
+        return await this.prisma.user.deleteMany();
     }
 };
 exports.UserService = UserService;

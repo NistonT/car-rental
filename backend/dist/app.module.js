@@ -10,14 +10,22 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const platform_express_1 = require("@nestjs/platform-express");
+const serve_static_1 = require("@nestjs/serve-static");
+const fs_1 = require("fs");
+const path_1 = require("path");
 const auth_module_1 = require("./auth/auth.module");
 const auto_admin_module_1 = require("./auto-admin/auto-admin.module");
+const booking_module_1 = require("./booking/booking.module");
 const license_module_1 = require("./license/license.module");
 const prisma_service_1 = require("./prisma.service");
 const upload_file_module_1 = require("./upload-file/upload-file.module");
 const user_module_1 = require("./user/user.module");
 const vehicle_module_1 = require("./vehicle/vehicle.module");
-const booking_module_1 = require("./booking/booking.module");
+const uploadsPath = (0, path_1.resolve)(__dirname, '..', 'uploads');
+if (!(0, fs_1.existsSync)(uploadsPath)) {
+    (0, fs_1.mkdirSync)(uploadsPath, { recursive: true });
+}
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +41,13 @@ exports.AppModule = AppModule = __decorate([
             license_module_1.LicenseModule,
             vehicle_module_1.VehicleModule,
             booking_module_1.BookingModule,
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: uploadsPath,
+                serveRoot: '/uploads',
+            }),
+            platform_express_1.MulterModule.register({
+                dest: './uploads',
+            }),
         ],
     })
 ], AppModule);

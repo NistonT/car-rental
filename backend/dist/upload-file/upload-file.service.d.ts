@@ -1,10 +1,22 @@
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
-import { UpdateUploadDto } from './dto/update.dto';
+export declare enum FileType {
+    IMAGE = "image"
+}
 export declare class UploadFileService {
     private readonly prisma;
     constructor(prisma: PrismaService);
-    findOne(id: string): Promise<User | null>;
-    update(id: string, dto: UpdateUploadDto): Promise<User>;
-    updateAvatar(id: string, file: Express.Multer.File): Promise<User>;
+    updateAvatarNew(id: string, file: any): Promise<{
+        id: string;
+        surname: string;
+        name: string;
+        patronymic: string;
+        email: string;
+        login: string;
+        password: string;
+        role: import(".prisma/client").$Enums.Role;
+        avatar: string | null;
+        license: string | null;
+        CreatedAt: Date;
+        UpdatedAt: Date;
+    }>;
 }

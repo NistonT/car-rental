@@ -15,72 +15,37 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadFileController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
-const crypto_1 = require("crypto");
 const multer_1 = require("multer");
-const path_1 = require("path");
-const update_dto_1 = require("./dto/update.dto");
+const file_upload_1 = require("../utils/file-upload");
 const upload_file_service_1 = require("./upload-file.service");
 let UploadFileController = class UploadFileController {
     constructor(uploadFileService) {
         this.uploadFileService = uploadFileService;
     }
-    async findOne(id) {
-        return await this.uploadFileService.findOne(id);
-    }
-    update(id, dto) {
-        return this.uploadFileService.update(id, dto);
-    }
-    async updateAvatar(id, file) {
-        return this.uploadFileService.updateAvatar(id, file);
+    async uploadedFile(file, id) {
+        const response = {
+            originalname: file.originalname,
+            filename: file.filename,
+        };
+        return await this.uploadFileService.updateAvatarNew(id, file);
     }
 };
 exports.UploadFileController = UploadFileController;
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UploadFileController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Put)(':id'),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_dto_1.UpdateUploadDto]),
-    __metadata("design:returntype", Promise)
-], UploadFileController.prototype, "update", null);
-__decorate([
-    (0, common_1.Post)(':id/avatar'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+    (0, common_1.Post)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
         storage: (0, multer_1.diskStorage)({
-            destination: (0, path_1.join)(__dirname, '../../../', 'uploads', 'profile'),
-            filename: (req, file, cb) => {
-                const uniqueSuffix = (0, crypto_1.randomUUID)();
-                const ext = (0, path_1.extname)(file.originalname);
-                const fileName = `${uniqueSuffix}${ext}`;
-                cb(null, fileName);
-            },
+            destination: './uploads',
+            filename: file_upload_1.editFileName,
         }),
-        fileFilter: (req, file, cb) => {
-            if (file.mimetype === 'image/jpeg') {
-                cb(null, true);
-            }
-            else {
-                cb(new Error('Only JPEG are allowed'), false);
-            }
-        },
-        limits: {
-            fileSize: 1024 * 1024,
-        },
+        fileFilter: file_upload_1.imageFileFilter,
     })),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
-], UploadFileController.prototype, "updateAvatar", null);
+], UploadFileController.prototype, "uploadedFile", null);
 exports.UploadFileController = UploadFileController = __decorate([
     (0, common_1.Controller)('upload-file'),
     __metadata("design:paramtypes", [upload_file_service_1.UploadFileService])

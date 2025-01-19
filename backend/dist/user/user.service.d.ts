@@ -8,4 +8,5 @@ export declare class UserService {
     getId(id: string): Promise<User>;
     editUser(id: string, dto: EditUserDto): Promise<User>;
     deleteUser(id: string): Promise<User>;
+    deleteAllUser(): Promise<import(".prisma/client").Prisma.BatchPayload>;
 }
