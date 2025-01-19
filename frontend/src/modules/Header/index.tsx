@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logout } from "./components/Logout";
 
 export const Header = () => {
 	return (
@@ -41,7 +42,9 @@ export const Header = () => {
 						</span>
 					</Link>
 
-					<nav className='hidden md:flex items-center space-x-6'></nav>
+					<nav className='hidden md:flex items-center space-x-6'>
+						<Logout />
+					</nav>
 				</div>
 			</header>
 		</>
