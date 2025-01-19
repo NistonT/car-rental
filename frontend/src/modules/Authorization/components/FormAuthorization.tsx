@@ -1,4 +1,6 @@
 "use client";
+import { authAtom } from "@/app/jotai/auth.store";
+import { useAtomValue } from "jotai";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { useFormAuthorization } from "../hooks/useFormAuthorization";
@@ -19,11 +21,17 @@ export const FormAuthorization = () => {
 		isError,
 	} = useFormAuthorization();
 
+	const isAuth = useAtomValue(authAtom);
+
 	useEffect(() => {
 		if (isSuccess) {
 			redirect("/");
 		}
-	}, [isSuccess]);
+		if (isAuth) {
+			redirect("/");
+		}
+		console.log(isAuth);
+	}, [isSuccess, isAuth]);
 
 	return (
 		<form
