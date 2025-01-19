@@ -7,7 +7,6 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 import { IUser } from './auth.type';
-import { CheckAutoDto } from './dto/check.dto';
 import { LoginValidateAuthDto } from './dto/login.dto';
 import { RegisterAuthDto } from './dto/register.dto';
 
@@ -76,23 +75,17 @@ export class AuthService {
   }
 
   // Проверка на валидность токена
-  async checkUser(dto: CheckAutoDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: dto.id,
-      },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('Пользователь не найден');
-    }
-
+  async checkUser(token: string) {
     try {
-      const payload = this.jwtService.verify(dto.token);
-      if (payload.sub !== user.id) {
-        throw new UnauthorizedException('Токен не принадлежит пользователю');
+      const payload = this.jwtService.verify(token);
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: payload.sub,
+        },
+      });
+      if (!user) {
+        throw new UnauthorizedException('Пользователь не найден');
       }
-
       return payload;
     } catch (error) {
       throw new UnauthorizedException('Невалидный токен');

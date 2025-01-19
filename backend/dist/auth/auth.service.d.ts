@@ -1,7 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma.service';
 import { IUser } from './auth.type';
-import { CheckAutoDto } from './dto/check.dto';
 import { LoginValidateAuthDto } from './dto/login.dto';
 import { RegisterAuthDto } from './dto/register.dto';
 export declare class AuthService {
@@ -37,5 +36,5 @@ export declare class AuthService {
     login(user: IUser): Promise<{
         access_token: string;
     }>;
-    checkUser(dto: CheckAutoDto): Promise<any>;
+    checkUser(token: string): Promise<any>;
 }

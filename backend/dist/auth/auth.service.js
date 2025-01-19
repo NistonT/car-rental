@@ -62,19 +62,16 @@ let AuthService = class AuthService {
             access_token: this.jwtService.sign(payload),
         };
     }
-    async checkUser(dto) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                id: dto.id,
-            },
-        });
-        if (!user) {
-            throw new common_1.UnauthorizedException('Пользователь не найден');
-        }
+    async checkUser(token) {
         try {
-            const payload = this.jwtService.verify(dto.token);
-            if (payload.sub !== user.id) {
-                throw new common_1.UnauthorizedException('Токен не принадлежит пользователю');
+            const payload = this.jwtService.verify(token);
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: payload.sub,
+                },
+            });
+            if (!user) {
+                throw new common_1.UnauthorizedException('Пользователь не найден');
             }
             return payload;
         }

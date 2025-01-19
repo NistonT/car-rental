@@ -1,5 +1,5 @@
-import { Authorization } from "@/modules/Authorization";
+import { Profile } from "@/modules/Profile";
 
 export default function Home() {
-	return <Authorization />;
+	return <Profile />;
 }
