@@ -3,15 +3,16 @@
 import { authAtom } from "@/app/jotai/auth.store";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const Logout = () => {
 	const [isAuth, setIsAuth] = useAtom(authAtom);
+	const router = useRouter();
 
 	const onLogout = () => {
 		Cookies.remove("token");
 		setIsAuth(false);
-		redirect("/authorization");
+		router.push("/authorization");
 	};
 
 	return (
