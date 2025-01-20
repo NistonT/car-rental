@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkVehicle } from "./components/LinkVehicle";
 import { Logout } from "./components/Logout";
 
 export const Header = () => {
@@ -43,6 +44,7 @@ export const Header = () => {
 					</Link>
 
 					<nav className='hidden md:flex items-center space-x-6'>
+						<LinkVehicle />
 						<Logout />
 					</nav>
 				</div>
