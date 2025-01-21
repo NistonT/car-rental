@@ -13,6 +13,7 @@ export const VehicleMake = ({ vehicles, vehicle_id }: Props) => {
 		return <p className='text-gray-400'>ID автомобиля не указан</p>;
 	}
 	const vehicle = vehicles[vehicle_id];
+
 	return (
 		<>
 			{vehicle?.make ? (

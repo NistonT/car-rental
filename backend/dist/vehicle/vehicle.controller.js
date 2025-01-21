@@ -21,8 +21,8 @@ let VehicleController = class VehicleController {
     constructor(vehicleService) {
         this.vehicleService = vehicleService;
     }
-    async getAllVehicle(page, pageSize) {
-        return await this.vehicleService.getAllVehicle(page, pageSize);
+    async getAllVehicle() {
+        return await this.vehicleService.getAllVehicle();
     }
     async getIdVehicle(id) {
         return await this.vehicleService.getIdVehicle(id);
@@ -40,10 +40,8 @@ let VehicleController = class VehicleController {
 exports.VehicleController = VehicleController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('page')),
-    __param(1, (0, common_1.Query)('pageSize')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], VehicleController.prototype, "getAllVehicle", null);
 __decorate([

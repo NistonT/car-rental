@@ -118,6 +118,7 @@ export const VehiclePanel = () => {
 								<SearchQuery
 									searchQuery={searchQuery}
 									setSearchQuery={setSearchQuery}
+									vehicles={vehicles}
 								/>
 								<FilterType
 									filterType={filterType}

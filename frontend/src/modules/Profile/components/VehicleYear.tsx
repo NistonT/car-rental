@@ -14,18 +14,20 @@ export const VehicleYear = ({ vehicles, vehicle_id }: Props) => {
 
 	const vehicle = vehicles[vehicle_id];
 
+	if (!vehicle) {
+		return <p className='text-gray-400'>Загрузка...</p>;
+	}
+
+	if (!vehicle.year) {
+		return <p className='text-gray-400'>Год автомобиля не указан</p>;
+	}
+
 	return (
 		<>
-			{vehicles?.year ? (
-				<p className='text-white'>
-					Год автомобиля:{" "}
-					<span className='text-gray-300 font-bold text-2xl'>
-						{vehicle?.year}
-					</span>
-				</p>
-			) : (
-				<p className='text-gray-400'>Загрузка...</p>
-			)}
+			<p className='text-white'>
+				Год автомобиля:{" "}
+				<span className='text-gray-300 font-bold text-2xl'>{vehicle.year}</span>
+			</p>
 		</>
 	);
 };
