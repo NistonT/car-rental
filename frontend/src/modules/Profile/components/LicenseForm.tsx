@@ -22,22 +22,27 @@ export const LicenseForm = ({ user }: Props) => {
 
 	const onSubmit: SubmitHandler<ILicense> = async license => {
 		setMessageError("");
+		if (license.license.length !== 10) {
+			setMessageError("Лицензия должна состоять из 10 цифр.");
+			return;
+		}
 		try {
-			const response = await addLicenseUserApi(user?.id, license);
-			console.log(response);
-			setIsSuccess(true);
-			location.reload();
+			await addLicenseUserApi(user?.id, license)
+				.then(response => {
+					setIsSuccess(true);
+					location.reload();
+				})
+				.catch(error => {});
 		} catch (error) {
 			setIsSuccess(false);
 			if (error instanceof AxiosError && error.response) {
 				setMessageError(error.response.data.message);
 			}
-			console.error(error);
 		}
 	};
 
 	return (
-		<div className='w-2/3 bg-[#151b23] p-8 rounded-md'>
+		<div className='w-full bg-[#151b23] p-8 rounded-md'>
 			<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 				<div>
 					<input

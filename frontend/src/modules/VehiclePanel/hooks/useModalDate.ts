@@ -1,7 +1,9 @@
+import { IUser } from "@/types/user.type";
 import { useState } from "react";
+import { registerBookingApi } from "../api/registerBooking.api";
 import { IVehicle } from "../types/vehicle.type";
 
-export const useModalDate = () => {
+export const useModalDate = (user: IUser | null) => {
 	const [selectedVehicle, setSelectedVehicle] = useState<IVehicle | null>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [startDate, setStartDate] = useState<Date | null>(null);
@@ -54,9 +56,24 @@ export const useModalDate = () => {
 		console.log("Start Date:", startDate.toISOString());
 		console.log("End Date:", endDate.toISOString());
 		console.log("Duration:", diffDays);
+
+		registerBookingApi({
+			user_id: user?.id,
+			vehicle_id: selectedVehicle.id,
+			date: startDate.toISOString(),
+			duration: diffDays,
+		})
+			.then(response => {
+				console.log(response);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+
 		setSuccess("Аренда успешно оформлена!");
 		setTimeout(() => {
 			handleCloseModal();
+			location.reload();
 		}, 2000);
 	};
 

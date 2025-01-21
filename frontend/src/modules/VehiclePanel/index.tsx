@@ -50,7 +50,7 @@ export const VehiclePanel = () => {
 		handleCloseModal,
 		handleRent,
 		handleOpenModal,
-	} = useModalDate();
+	} = useModalDate(user);
 
 	useEffect(() => {
 		const token = Cookies.get("token");

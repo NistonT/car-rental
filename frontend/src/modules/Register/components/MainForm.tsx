@@ -1,4 +1,6 @@
 "use client";
+import { authAtom } from "@/app/jotai/auth.store";
+import { useAtomValue } from "jotai";
 import { useFormRegister } from "../hooks/useFormRegister";
 import { FormButton } from "./FormButton";
 import { FormEmail } from "./FormEmail";
@@ -25,6 +27,9 @@ export const MainForm = () => {
 		messageError,
 		isError,
 	} = useFormRegister();
+
+	const isAuth = useAtomValue(authAtom);
+	console.log(isAuth);
 
 	return (
 		<form

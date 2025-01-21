@@ -9,6 +9,7 @@ import { checkTokenProfileApi } from "./api/checkToken.api";
 import { getUser } from "./api/getUser.api";
 import { LicenseForm } from "./components/LicenseForm";
 import { Loading } from "./components/Loading";
+import { ProfileBooking } from "./components/ProfileBooking";
 import { ProfileMain } from "./components/ProfileMain";
 
 export const Profile = () => {
@@ -60,7 +61,10 @@ export const Profile = () => {
 			) : (
 				<div className='flex flex-col md:flex-row container mx-auto mb-10'>
 					<ProfileMain user={user} />
-					<LicenseForm user={user} />
+					<div className='w-2/3 bg-[#151b23] p-8 rounded-md'>
+						<LicenseForm user={user} />
+						<ProfileBooking user={user} />
+					</div>
 				</div>
 			)}
 		</>
