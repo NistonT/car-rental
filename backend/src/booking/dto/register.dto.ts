@@ -2,10 +2,10 @@ import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class RegisterBookingDto {
   @IsString()
-  id_user: string;
+  user_id: string;
 
   @IsString()
-  id_vehicle: string;
+  vehicle_id: string;
 
   @IsDate()
   date: Date;

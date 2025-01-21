@@ -17,11 +17,11 @@ exports.RegisterBookingDto = RegisterBookingDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], RegisterBookingDto.prototype, "id_user", void 0);
+], RegisterBookingDto.prototype, "user_id", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], RegisterBookingDto.prototype, "id_vehicle", void 0);
+], RegisterBookingDto.prototype, "vehicle_id", void 0);
 __decorate([
     (0, class_validator_1.IsDate)(),
     __metadata("design:type", Date)

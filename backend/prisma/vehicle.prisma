@@ -1,13 +1,1 @@
-model Vehicle {
-  id          String @id @default(cuid())
-  type        String
-  make        String
-  year        Int
-  description String
 
-  CreatedAt DateTime  @default(now()) @map("created_at")
-  UpdatedAt DateTime  @updatedAt() @map("updated_map")
-  Booking   Booking[]
-
-  @@map("vehicle")
-}

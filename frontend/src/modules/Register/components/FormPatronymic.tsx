@@ -16,6 +16,7 @@ export const FormPatronymic = ({ register, errors }: Props) => {
 				Отчество
 			</label>
 			<input
+				autoComplete='off'
 				{...register("patronymic", {
 					required: "Пожалуйста, введите отчество",
 					pattern: {
