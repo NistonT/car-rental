@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Booking } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { RegisterBookingDto } from './dto/register.dto';
@@ -9,12 +9,27 @@ export class BookingService {
 
   // Регистрация заявки
   async registerBooking(dto: RegisterBookingDto): Promise<Booking> {
+    console.log(dto);
+
     const user = await this.prisma.user.findUnique({
-      where: { id: dto.id_user },
+      where: { id: dto.user_id },
     });
+
+    if (!user) {
+      throw new NotFoundException(
+        `Пользователь с таким ${dto.user_id} не найден`,
+      );
+    }
+
     const vehicle = await this.prisma.vehicle.findUnique({
-      where: { id: dto.id_vehicle },
+      where: { id: dto.vehicle_id },
     });
+
+    if (!vehicle) {
+      throw new NotFoundException(
+        `Транспорт с таким ${dto.vehicle_id} не найден`,
+      );
+    }
 
     return await this.prisma.booking.create({
       data: {
@@ -25,7 +40,6 @@ export class BookingService {
       },
     });
   }
-
   // Вывод всех заявок у пользователей
   async getBookingUser(id: string): Promise<Booking[]> {
     const user = await this.prisma.user.findUnique({ where: { id } });

@@ -17,12 +17,19 @@ let BookingService = class BookingService {
         this.prisma = prisma;
     }
     async registerBooking(dto) {
+        console.log(dto);
         const user = await this.prisma.user.findUnique({
-            where: { id: dto.id_user },
+            where: { id: dto.user_id },
         });
+        if (!user) {
+            throw new common_1.NotFoundException(`Пользователь с таким ${dto.user_id} не найден`);
+        }
         const vehicle = await this.prisma.vehicle.findUnique({
-            where: { id: dto.id_vehicle },
+            where: { id: dto.vehicle_id },
         });
+        if (!vehicle) {
+            throw new common_1.NotFoundException(`Транспорт с таким ${dto.vehicle_id} не найден`);
+        }
         return await this.prisma.booking.create({
             data: {
                 user_id: user.id,

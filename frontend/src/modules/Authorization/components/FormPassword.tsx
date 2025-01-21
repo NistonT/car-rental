@@ -13,6 +13,7 @@ export const FormPassword = ({ register, errors }: Props) => {
 				Пароль
 			</label>
 			<input
+				autoComplete='off'
 				{...register("password", { required: "Введите пароль" })}
 				type='password'
 				id='password'

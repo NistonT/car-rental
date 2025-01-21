@@ -16,6 +16,7 @@ export const FormSurname = ({ register, errors }: Props) => {
 				Фамилия
 			</label>
 			<input
+				autoComplete='off'
 				{...register("surname", {
 					required: "Пожалуйста, введите фамилию",
 					pattern: {

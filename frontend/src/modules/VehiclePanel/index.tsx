@@ -3,11 +3,19 @@ import { authAtom } from "@/app/jotai/auth.store";
 import { IUser } from "@/types/user.type";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { checkTokenVehicleApi } from "./api/checkToken.api";
 import { getAllVehicle } from "./api/getAllVehicle";
 import { getUser } from "./api/getUser.api";
+import { FilterMake } from "./components/FilterMake";
+import { FilterType } from "./components/FilterType";
+import { FilterYear } from "./components/FilterYear";
+import { IsModal } from "./components/IsModal";
+import { SearchQuery } from "./components/SearchQuery";
+import { VehiclesList } from "./components/VehiclesList";
+import { useModalDate } from "./hooks/useModalDate";
+import { useSearchQuery } from "./hooks/useSearchQuery";
 import { IVehicle } from "./types/vehicle.type";
 
 export const VehiclePanel = () => {
@@ -17,25 +25,54 @@ export const VehiclePanel = () => {
 	const [isAuth, setIsAuth] = useAtom<boolean>(authAtom);
 	const [vehicles, setVehicles] = useState<IVehicle[]>([]);
 
+	const {
+		filteredVehicles,
+		searchQuery,
+		filterType,
+		filterMake,
+		filterYear,
+		setSearchQuery,
+		setFilterMake,
+		setFilterType,
+		setFilterYear,
+	} = useSearchQuery(vehicles);
+
+	const {
+		isModalOpen,
+		selectedVehicle,
+		formatDate,
+		startDate,
+		setStartDate,
+		endDate,
+		handleEndDateChange,
+		error,
+		success,
+		handleCloseModal,
+		handleRent,
+		handleOpenModal,
+	} = useModalDate();
+
 	useEffect(() => {
 		const token = Cookies.get("token");
 
 		if (!token) {
 			console.log("У вас нет токена");
-			redirect("/authorization");
+			router.push("/authorization");
+			return;
 		}
+
 		checkTokenVehicleApi(token)
 			.then(response => {
 				if (!response || !response.data || !response.data.sub) {
 					console.error("Invalid response from checkTokenProfileApi", response);
 					setLoading(false);
 					router.push("/authorization");
+					return;
 				}
 				getUser(response.data.sub)
 					.then(userResponse => {
 						setUser(userResponse?.data);
 						setIsAuth(true);
-						Cookies.set("isAuth", "true", { sameSite: "Strict" });
 						setLoading(false);
 					})
 					.catch(getUserError => {
@@ -50,14 +87,15 @@ export const VehiclePanel = () => {
 				router.push("/authorization");
 			});
 
-		getAllVehicle().then(response => {
-			console.log(response?.data);
-			setVehicles(response?.data);
-		});
-	}, []);
-
-	console.log(user);
-
+		getAllVehicle()
+			.then(response => {
+				console.log(response?.data);
+				setVehicles(response?.data);
+			})
+			.catch(error => {
+				console.error("Error fetching vehicles:", error);
+			});
+	}, [router, setIsAuth]);
 	return (
 		<>
 			<section className='bg-gray-900 text-gray-300 min-h-screen py-12'>
@@ -76,41 +114,47 @@ export const VehiclePanel = () => {
 									Здесь вы можете найти информацию о доступном транспорте.
 								</p>
 							</div>
-							<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-								{vehicles.map(vehicle => (
-									<div
-										key={vehicle.id}
-										className='bg-gray-800 p-6 rounded-md shadow-lg hover:shadow-xl transition-shadow duration-300'
-									>
-										<div className='flex flex-col items-center'>
-											<div className='w-28 h-28 mb-4 overflow-hidden rounded-full'>
-												<img
-													alt={vehicle.make}
-													className='object-cover w-full h-full'
-													src='https://dummyimage.com/200x200' // Замените на реальное изображение
-												/>
-											</div>
-											<div className='text-center'>
-												<h2 className='text-white font-semibold text-xl mb-2'>
-													{vehicle?.make}
-												</h2>
-												<p className='text-gray-400 text-base mb-2'>
-													{vehicle.type}
-												</p>
-												<p className='text-gray-400 text-sm'>
-													<strong>Год выпуска:</strong> {vehicle.year}
-												</p>
-												<p className='text-gray-400 text-sm mt-2'>
-													<strong>Описание:</strong> {vehicle.description}
-												</p>
-											</div>
-										</div>
-									</div>
-								))}
+							<div className='flex flex-wrap gap-2 mb-4'>
+								<SearchQuery
+									searchQuery={searchQuery}
+									setSearchQuery={setSearchQuery}
+								/>
+								<FilterType
+									filterType={filterType}
+									setFilterType={setFilterType}
+								/>
+								<FilterMake
+									filterMake={filterMake}
+									setFilterMake={setFilterMake}
+									vehicles={vehicles}
+								/>
+								<FilterYear
+									filterYear={filterYear}
+									setFilterYear={setFilterYear}
+									vehicles={vehicles}
+								/>
 							</div>
+							<VehiclesList
+								vehicles={vehicles}
+								handleOpenModal={handleOpenModal}
+								filteredVehicles={filteredVehicles}
+							/>
 						</>
 					)}
 				</div>
+				<IsModal
+					isModalOpen={isModalOpen}
+					selectedVehicle={selectedVehicle}
+					formatDate={formatDate}
+					startDate={startDate}
+					setStartDate={setStartDate}
+					endDate={endDate}
+					handleEndDateChange={handleEndDateChange}
+					error={error}
+					success={success}
+					handleCloseModal={handleCloseModal}
+					handleRent={handleRent}
+				/>
 			</section>
 		</>
 	);

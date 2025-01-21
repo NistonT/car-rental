@@ -1,6 +1,6 @@
 export declare class RegisterBookingDto {
-    id_user: string;
-    id_vehicle: string;
+    user_id: string;
+    vehicle_id: string;
     date: Date;
     duration: number;
 }

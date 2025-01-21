@@ -16,6 +16,7 @@ export const FormEmail = ({ register, errors }: Props) => {
 				Email
 			</label>
 			<input
+				autoComplete='off'
 				{...register("email", {
 					required: "Пожалуйста, введите почту",
 					pattern: {
