@@ -8,8 +8,17 @@ import { EditVehicleDto } from './dto/edit.dto';
 export class VehicleService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllVehicle(): Promise<Vehicle[]> {
-    return await this.prisma.vehicle.findMany();
+  async getAllVehicle(
+    page: number = 1,
+    pageSize: number = 10,
+  ): Promise<Vehicle[]> {
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    return await this.prisma.vehicle.findMany({
+      skip: skip,
+      take: take,
+    });
   }
 
   async getIdVehicle(id: string): Promise<Vehicle> {

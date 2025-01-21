@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Vehicle } from '@prisma/client';
 import { AddVehicleDto } from './dto/add.dto';
@@ -18,8 +19,11 @@ export class VehicleController {
 
   // Вывод автотранспорта
   @Get()
-  async getAllVehicle(): Promise<Vehicle[]> {
-    return await this.vehicleService.getAllVehicle();
+  async getAllVehicle(
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+  ): Promise<Vehicle[]> {
+    return await this.vehicleService.getAllVehicle(page, pageSize);
   }
 
   // Вывод автотранспорта по идентификатору

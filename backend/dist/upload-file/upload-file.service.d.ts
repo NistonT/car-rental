@@ -6,16 +6,16 @@ export declare class UploadFileService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     updateAvatarNew(id: string, file: any): Promise<{
-        id: string;
-        surname: string;
-        name: string;
-        patronymic: string;
-        email: string;
         login: string;
         password: string;
-        role: import(".prisma/client").$Enums.Role;
+        name: string;
+        surname: string;
+        patronymic: string;
+        email: string;
         avatar: string | null;
         license: string | null;
+        id: string;
+        role: import(".prisma/client").$Enums.Role;
         CreatedAt: Date;
         UpdatedAt: Date;
     }>;

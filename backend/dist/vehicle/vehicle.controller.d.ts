@@ -5,7 +5,7 @@ import { VehicleService } from './vehicle.service';
 export declare class VehicleController {
     private readonly vehicleService;
     constructor(vehicleService: VehicleService);
-    getAllVehicle(): Promise<Vehicle[]>;
+    getAllVehicle(page: number, pageSize: number): Promise<Vehicle[]>;
     getIdVehicle(id: string): Promise<Vehicle>;
     addVehicle(dto: AddVehicleDto): Promise<Vehicle>;
     editVehicle(id: string, dto: EditVehicleDto): Promise<Vehicle>;
