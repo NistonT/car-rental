@@ -16,13 +16,8 @@ let VehicleService = class VehicleService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async getAllVehicle(page = 1, pageSize = 10) {
-        const skip = (page - 1) * pageSize;
-        const take = pageSize;
-        return await this.prisma.vehicle.findMany({
-            skip: skip,
-            take: take,
-        });
+    async getAllVehicle() {
+        return await this.prisma.vehicle.findMany({});
     }
     async getIdVehicle(id) {
         return await this.prisma.vehicle.findUnique({ where: { id } });

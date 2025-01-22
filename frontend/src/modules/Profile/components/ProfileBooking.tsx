@@ -111,7 +111,7 @@ export const ProfileBooking = ({ user }: Props) => {
 										formattedDate.status === "today"
 											? "bg-green-600 border-2 border-green-400"
 											: formattedDate.status === "future"
-											? "bg-green-800"
+											? "bg-gray-700"
 											: "bg-gray-700"
 									}`}
 								>

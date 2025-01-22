@@ -1,5 +1,11 @@
+import { AdminAuthPanel } from "@/modules/AdminAuthPanel";
+
 function AuthAdmin() {
-	return <>auth</>;
+	return (
+		<>
+			<AdminAuthPanel />
+		</>
+	);
 }
 
 export default AuthAdmin;
