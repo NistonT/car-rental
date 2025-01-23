@@ -1,5 +1,7 @@
+"use client";
 import { IUser } from "@/types/user.type";
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { addLicenseUserApi } from "../api/addLicenseUser.api";
@@ -30,6 +32,12 @@ export const LicenseForm = ({ user }: Props) => {
 			await addLicenseUserApi(user?.id, license)
 				.then(response => {
 					setIsSuccess(true);
+					Cookies.set("license", "license", {
+						path: "/",
+						expires: 1,
+						sameSite: "strict",
+						secure: process.env.NODE_ENV === "production",
+					});
 					location.reload();
 				})
 				.catch(error => {});

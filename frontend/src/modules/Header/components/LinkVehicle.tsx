@@ -1,12 +1,14 @@
 "use client";
 import { authAtom } from "@/app/jotai/auth.store";
 import { useAtom } from "jotai";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const LinkVehicle = () => {
 	const pathname = usePathname();
 	const [isAuth, setIsAuth] = useAtom(authAtom);
+	const token_license = Cookies.get("license");
 	return (
 		isAuth &&
 		(pathname === "/vehicle" ? (

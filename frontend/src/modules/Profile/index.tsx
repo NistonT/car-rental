@@ -36,6 +36,12 @@ export const Profile = () => {
 					.then(userResponse => {
 						setUser(userResponse?.data);
 						setIsAuth(true);
+						Cookies.set("license", "license", {
+							path: "/",
+							expires: 1,
+							sameSite: "strict",
+							secure: process.env.NODE_ENV === "production",
+						});
 						Cookies.set("isAuth", "true", { sameSite: "Strict" });
 						setLoading(false);
 					})
