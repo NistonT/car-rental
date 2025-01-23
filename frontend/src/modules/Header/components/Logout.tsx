@@ -10,6 +10,7 @@ export const Logout = () => {
 	const [isAuth, setIsAuth] = useAtom(authAtom);
 	const router = useRouter();
 	const token_admin = Cookies.get("token_admin");
+	const license = Cookies.get("license");
 
 	const onLogout = () => {
 		Cookies.remove("token");

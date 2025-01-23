@@ -4,16 +4,12 @@ import { useAtom } from "jotai";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { adminAuth } from "./constants";
 
 export const AdminAuthPanel = () => {
 	const { register, handleSubmit } = useForm();
 	const [isAuthAdmin, setIsAuthAdmin] = useAtom(authAdminAtom);
 	const router = useRouter();
-
-	const adminAuth = {
-		login: "adm",
-		password: "wsr",
-	};
 
 	const onSubmit = (data: any) => {
 		if (data.login === adminAuth.login && data.password && adminAuth.password) {
